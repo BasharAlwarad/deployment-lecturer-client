@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
   const [user, setUser] = useState({
@@ -8,9 +8,7 @@ function App() {
     password: '',
   });
   const [userList, setUserList] = useState([]);
-
-  const url = `http://localhost:5000/data`;
-  const liveUrl = `https://deployment-dhdu.onrender.com/data`;
+  const [url, setUrl] = useState(`http://localhost:5000/data`);
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -18,7 +16,7 @@ function App() {
 
   // @desc       GET all users
   const getAllUsers = async () => {
-    const data = await fetch(`http://localhost:5000/data`)
+    const data = await fetch(url)
       .then((response) => response.json())
       .catch((error) => console.log(error));
     setUserList(data);
@@ -26,7 +24,7 @@ function App() {
 
   // @desc       POST create user
   const addUser = async () => {
-    const data = await fetch(`http://localhost:5000/data`, {
+    await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -35,19 +33,36 @@ function App() {
     })
       .then((response) => response.json())
       .catch((error) => console.log(error));
-    setUserList(data);
+    setUser({
+      id: '',
+      name: '',
+      email: '',
+      password: '',
+    });
     getAllUsers();
   };
 
   // @desc       DELETE single user
   const deleteSingleUser = async () => {
-    await fetch(`http://localhost:5000/data/${user?.id}`, {
+    await fetch(`${url}/${user.id}`, {
       method: 'DELETE',
     })
       .then((response) => response.json())
       .catch((error) => console.log(error));
+    setUser({
+      id: '',
+      name: '',
+      email: '',
+      password: '',
+    });
     getAllUsers();
   };
+
+  useEffect(() => {
+    return () => {
+      setUrl(`https://deployment-dhdu.onrender.com/data`);
+    };
+  }, []);
 
   return (
     <div className='App'>
@@ -58,7 +73,7 @@ function App() {
             <input
               id='userIdIn'
               name='id'
-              type='number'
+              type='text'
               value={user.id}
               onChange={handleChange}
             />
@@ -101,8 +116,8 @@ function App() {
         </section>
         <section>
           <ul id='usersList'>
-            {userList.user?.map((e) => (
-              <li key={e.id}>{`${e.name}:  ${e.email}`}</li>
+            {userList?.map((e, i) => (
+              <li key={i}>{`${e.name}:  ${e.email}`}</li>
             ))}
           </ul>
         </section>
