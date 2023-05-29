@@ -9,6 +9,9 @@ function App() {
   });
   const [userList, setUserList] = useState([]);
 
+  const url = `http://localhost:5000/data`;
+  const liveUrl = `https://deployment-dhdu.onrender.com/data`;
+
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
