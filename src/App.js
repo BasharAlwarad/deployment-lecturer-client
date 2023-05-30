@@ -8,7 +8,7 @@ function App() {
     password: '',
   });
   const [userList, setUserList] = useState([]);
-  const [url, setUrl] = useState(`http://localhost:5000/data`);
+  const [url, setUrl] = useState(`https://deployment-dhdu.onrender.com`);
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -16,7 +16,7 @@ function App() {
 
   // @desc       GET all users
   const getAllUsers = async () => {
-    const data = await fetch(url)
+    const data = await fetch(`${url}/data`)
       .then((response) => response.json())
       .catch((error) => console.log(error));
     setUserList(data);
@@ -24,7 +24,7 @@ function App() {
 
   // @desc       POST create user
   const addUser = async () => {
-    await fetch(url, {
+    await fetch(`${url}/data`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ function App() {
 
   // @desc       DELETE single user
   const deleteSingleUser = async () => {
-    await fetch(`${url}/${user.id}`, {
+    await fetch(`${url}/data/${user.id}`, {
       method: 'DELETE',
     })
       .then((response) => response.json())
@@ -59,11 +59,14 @@ function App() {
   };
 
   useEffect(() => {
+    console.log(process.env.REACT_APP_ENV);
     return () => {
-      setUrl(`https://deployment-dhdu.onrender.com/data`);
+      if (process.env.REACT_APP_ENV === 'PRODUCTION') {
+        setUrl(`http://localhost:8000`);
+      }
     };
   }, []);
-
+  console.log(url);
   return (
     <div className='App'>
       <main>
