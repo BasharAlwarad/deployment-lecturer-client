@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/deployment-lecturer-client/static/css/main.a5eed2f4.css",
+    "main.js": "/deployment-lecturer-client/static/js/main.02b62e3e.js",
+    "index.html": "/deployment-lecturer-client/index.html",
+    "main.a5eed2f4.css.map": "/deployment-lecturer-client/static/css/main.a5eed2f4.css.map",
+    "main.02b62e3e.js.map": "/deployment-lecturer-client/static/js/main.02b62e3e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a5eed2f4.css",
+    "static/js/main.02b62e3e.js"
+  ]
+}
