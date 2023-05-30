@@ -59,9 +59,12 @@ function App() {
   };
 
   useEffect(() => {
-    console.log(process.env.REACT_APP_ENV);
+    console.log(process.env.REACT_APP_ENV && process.env.REACT_APP_ENV);
     return () => {
-      if (process.env.REACT_APP_ENV === 'PRODUCTION') {
+      if (
+        process.env.REACT_APP_ENV &&
+        process.env.REACT_APP_ENV === 'PRODUCTION'
+      ) {
         setUrl(`http://localhost:8000`);
       }
     };
